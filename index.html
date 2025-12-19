@@ -1,19 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Grape Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --card: #14141b;
+      --accent: #7c3aed;
+      --green: #22c55e;
+      --red: #ef4444;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #151521, #0b0b0f);
+      color: var(--text);
+    }
+
+    .navbar {
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #050507;
+      border-bottom: 1px solid #1f1f2b;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 24px;
+    }
+
+    h1 {
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #1b1b29, #0f0f16);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .label {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .value {
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .actions {
+      margin-top: 32px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #7c3aed, #9333ea);
+      box-shadow: 0 10px 30px rgba(124,58,237,0.45);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(124,58,237,0.6);
+    }
+
+    .btn:disabled {
+      background: #333;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .status-green { color: var(--green); }
+    .status-red { color: var(--red); }
+
+  </style>
 </head>
-<body style="background:#0b0b0f;color:white;font-family:Arial">
+<body>
 
-<h1>🍇 Grape Hub</h1>
+  <div class="navbar">
+    <div class="logo">🍇 Grape Hub</div>
+    <div>Dashboard</div>
+  </div>
 
-<p><b>Plan:</b> <span id="plan"></span></p>
-<p><b>Slots:</b> <span id="slots"></span></p>
-<p><b>Status:</b> <span id="status"></span></p>
-<p><b>Preis:</b> <span id="price"></span></p>
+  <div class="container">
+    <h1>Welcome to Grape Hub</h1>
+    <div class="subtitle">Premium access with limited slots</div>
 
-<button id="buy">Laden...</button>
+    <div class="grid">
+      <div class="card">
+        <div class="label">PLAN</div>
+        <div class="value" id="plan">–</div>
+      </div>
 
-<script src="script.js"></script>
+      <div class="card">
+        <div class="label">SLOTS</div>
+        <div class="value" id="slots">–</div>
+      </div>
+
+      <div class="card">
+        <div class="label">STATUS</div>
+        <div class="value" id="status">–</div>
+      </div>
+
+      <div class="card">
+        <div class="label">PRICE</div>
+        <div class="value" id="price">–</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="buy">Loading…</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
