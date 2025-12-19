@@ -3,375 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grape Hub 🍇 | Dashboard</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <title>Grape Hub 🍇</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root {
-            --bg-dark: #0f0f0f;
-            --bg-panel: #18181b;
-            --bg-card: #27272a;
-            --primary: #8b5cf6;
-            --primary-glow: rgba(139, 92, 246, 0.3);
-            --accent-green: #22c55e;
-            --accent-red: #ef4444;
-            --accent-gold: #eab308;
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            /* SCHRIFTART GEÄNDERT & GLOBAL FETT */
-            font-family: 'Inter', sans-serif;
-            font-weight: 700; 
-            -webkit-font-smoothing: antialiased;
-        }
-
+        /* GLOBALER STIL */
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: #0c0c0e;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif; /* Standard-Font, aber extrem fett gemacht */
+            margin: 0;
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* --- Sidebar --- */
+        * {
+            box-sizing: border-box;
+            font-weight: 900 !important; /* ERZWINGT MAXIMALE FETTE SCHRIFT ÜBERALL */
+        }
+
+        /* SIDEBAR */
         .sidebar {
-            width: 260px;
-            background-color: var(--bg-panel);
-            padding: 20px;
+            width: 280px;
+            background-color: #141417;
+            border-right: 2px solid #27272a;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
-            border-right: 1px solid #333;
         }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #333;
-        }
-
-        .avatar {
-            width: 45px;
-            height: 45px;
-            background: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.2rem;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        .balance-card {
-            background: var(--bg-card);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            border: 1px solid #3f3f46;
-        }
-
-        .add-btn {
-            background: var(--accent-green);
-            border: none;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            float: right;
-            font-weight: 800;
-            font-size: 0.8rem;
-        }
-
-        .nav-link {
+        .avatar-area {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 14px 15px;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 10px;
-            transition: 0.2s;
-            margin-bottom: 8px;
-            font-weight: 700;
+            margin-bottom: 40px;
         }
 
-        .nav-link:hover, .nav-link.active {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .logout {
-            margin-top: auto;
-            border: 2px solid var(--accent-red);
-            color: var(--accent-red);
-            text-align: center;
+        .avatar-circle {
+            width: 50px;
+            height: 50px;
+            background: #8b5cf6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
         }
 
-        /* --- Main Content --- */
-        .main-content {
+        .nav-item {
+            padding: 15px;
+            color: #a1a1aa;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .nav-item.active {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .content {
             flex: 1;
             padding: 40px;
             overflow-y: auto;
         }
 
-        .grape-header {
-            background: linear-gradient(90deg, #1e1b4b 0%, rgba(0,0,0,0) 100%);
-            border-left: 8px solid var(--primary);
-            padding: 25px 35px;
-            border-radius: 12px;
+        /* --- DIE GRAPE HUB ÜBERSCHRIFT --- */
+        .main-header-banner {
+            background: linear-gradient(90deg, #1e1b4b 0%, #0c0c0e 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 10px solid #8b5cf6;
             margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .grape-title {
-            font-size: 3rem;
-            font-weight: 900; /* EXTREM FETT */
-            color: white;
-            letter-spacing: -1px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 25px;
-        }
-
-        h2 { font-size: 1.5rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px; }
-
-        .plan-panel {
-            background: var(--bg-panel);
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #333;
-        }
-
-        .current-plan {
-            background: var(--accent-red);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .plan-option {
-            background: var(--bg-card);
-            border: 2px solid #333;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .plan-header {
-            padding: 12px 18px;
-            font-weight: 900; 
-            font-size: 1rem;
+        .grape-title-text {
+            font-size: 4rem; /* SEHR GROSS */
+            color: #ffffff;
             text-transform: uppercase;
+            letter-spacing: -2px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
         }
 
-        .plan-god .plan-header { background: var(--accent-gold); color: black; }
-        .plan-omega .plan-header { background: var(--primary); }
-        .plan-ultimate .plan-header { background: #3b82f6; }
+        /* DASHBOARD GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
 
-        .plan-details {
-            padding: 15px 18px;
-            font-size: 0.95rem;
-            color: white;
+        .panel {
+            background: #18181b;
+            border: 2px solid #27272a;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .status-badge {
+            background: #ef4444;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* PLAN CARDS */
+        .plan-card {
+            background: #27272a;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .plan-card:hover {
+            border-color: #8b5cf6;
+            transform: scale(1.02);
+        }
+
+        .plan-name {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: black;
+        }
+
+        .plan-price {
+            padding: 20px;
             display: flex;
             justify-content: space-between;
         }
 
-        .code-box {
-            background: var(--bg-panel);
-            padding: 25px;
-            border-radius: 16px;
-            border: 1px solid #333;
-            margin-bottom: 25px;
-        }
-
-        .script-input {
+        /* LOADER BOX */
+        .loader-box {
             background: #000;
+            padding: 20px;
+            border-radius: 15px;
             border: 2px solid #333;
             color: #4ade80;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
+            font-family: monospace;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            word-break: break-all;
+        }
+
+        /* LIVE STATS */
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .big-percent {
+            font-size: 4rem;
+            color: #8b5cf6;
+        }
+
+        .slot-pill {
+            background: #000;
+            padding: 15px;
             border-radius: 10px;
-            font-weight: 800;
-            margin-top: 15px;
-            line-height: 1.5;
-        }
-
-        .stats-panel {
-            background: var(--bg-panel);
-            padding: 25px;
-            border-radius: 16px;
-            border: 1px solid #333;
-        }
-
-        .running-percent {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: white;
-        }
-
-        .slot-card {
-            background: #111;
-            padding: 20px;
-            border-radius: 12px;
-            border: 2px solid #333;
             text-align: center;
+            border: 2px solid #27272a;
         }
 
-        .slot-val {
-            font-size: 1.5rem;
-            font-weight: 900;
-            margin-top: 5px;
-        }
-
-        #server-time {
-            font-weight: 900;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="user-profile">
-            <div class="avatar">G</div>
+        <div class="avatar-area">
+            <div class="avatar-circle">G</div>
             <div>
-                <div style="font-weight: 900;">Grapehub Admin</div>
-                <div style="font-size: 0.8rem; color: #777;">ID: 99283712</div>
+                <div style="font-size: 1.2rem;">ADMIN</div>
+                <div style="color: #8b5cf6; font-size: 0.8rem;">ONLINE</div>
             </div>
         </div>
 
-        <div class="balance-card">
-            <div style="font-size: 0.75rem; color: #aaa; text-transform: uppercase;">Total Balance</div>
-            <div style="font-size: 1.8rem; font-weight: 900; margin-top: 5px;">
-                R$ 0.00 
-                <button class="add-btn">+ ADD</button>
-            </div>
-        </div>
-
-        <a href="#" class="nav-link active"><i class="fas fa-th-large"></i> DASHBOARD</a>
-        <a href="#" class="nav-link"><i class="fas fa-cog"></i> SETTINGS</a>
-        <a href="#" class="nav-link"><i class="fas fa-box"></i> ORDERS</a>
-        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> STORE</a>
-        
-        <a href="#" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
+        <a href="#" class="nav-item active"><i class="fas fa-home"></i> DASHBOARD</a>
+        <a href="#" class="nav-item"><i class="fas fa-shopping-cart"></i> SHOP</a>
+        <a href="#" class="nav-item"><i class="fas fa-code"></i> SCRIPTS</a>
+        <a href="#" class="nav-item" style="margin-top: auto; border: 2px solid #ef4444; color: #ef4444;"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
     </div>
 
-    <div class="main-content">
+    <div class="content">
         
-        <div class="grape-header">
-            <div class="grape-title">
+        <div class="main-header-banner">
+            <h1 class="grape-title-text">
                 Grape Hub 🍇
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 0.75rem; color: #888; font-weight: 800;">SERVER TIME</div>
-                <div id="server-time">00:00:00</div>
-            </div>
+            </h1>
         </div>
 
-        <div class="dashboard-grid">
-            <div class="plan-panel">
-                <h2>SELECT PLAN</h2>
+        <div class="grid">
+            <div class="panel">
+                <h2 style="margin-top:0; margin-bottom: 25px; font-size: 2rem;">CHOOSE PLAN</h2>
                 
-                <div class="current-plan">
-                    <div>
-                        <div style="font-size:0.75rem; font-weight: 900; opacity: 0.8;">CURRENT STATUS</div>
-                        <div style="font-weight:900; font-size: 1.3rem;">EXPIRED</div>
-                    </div>
-                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                <div class="status-badge">
+                    <span>CURRENT PLAN: NONE</span>
+                    <i class="fas fa-times-circle"></i>
                 </div>
 
-                <div class="plan-option plan-god">
-                    <div class="plan-header">GOD TIER</div>
-                    <div class="plan-details">
-                        <span>R$ 60 / HOUR</span>
-                        <span>8 SLOTS LEFT</span>
+                <div class="plan-card">
+                    <div class="plan-name" style="background: #eab308;">GOD TIER</div>
+                    <div class="plan-price">
+                        <span>R$ 60 / HR</span>
+                        <span id="god-live">8/10</span>
                     </div>
                 </div>
 
-                <div class="plan-option plan-omega">
-                    <div class="plan-header">OMEGA TIER</div>
-                    <div class="plan-details">
-                        <span>R$ 40 / HOUR</span>
-                        <span>12 SLOTS LEFT</span>
+                <div class="plan-card">
+                    <div class="plan-name" style="background: #8b5cf6; color: white;">OMEGA TIER</div>
+                    <div class="plan-price">
+                        <span>R$ 40 / HR</span>
+                        <span id="omega-live">15/20</span>
                     </div>
                 </div>
             </div>
 
-            <div class="status-area">
-                <div class="code-box">
-                    <div style="display:flex; justify-content:space-between; align-items: center;">
-                        <h2 style="margin:0;">LOADER</h2>
-                        <span style="color:var(--accent-red); font-weight: 900;">● OFFLINE</span>
+            <div class="panel">
+                <div class="stat-row">
+                    <div>
+                        <h2 style="margin:0; font-size: 2rem;">LIVE USAGE</h2>
+                        <div style="color: #22c55e;">● SYSTEM ACTIVE</div>
                     </div>
-                    <div class="script-input">
-                        loadstring(game:HttpGet("https://api.grapehub.net/v2"))()
+                    <div class="big-percent" id="load-pct">92%</div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="slot-pill">
+                        <div style="color: #8b5cf6;">USERS</div>
+                        <div style="font-size: 1.5rem;">4,421</div>
+                    </div>
+                    <div class="slot-pill">
+                        <div style="color: #8b5cf6;">STATUS</div>
+                        <div style="font-size: 1.5rem;">UNDETECTED</div>
                     </div>
                 </div>
 
-                <div class="stats-panel">
-                    <div style="display:flex; justify-content:space-between; align-items: flex-end; margin-bottom: 20px;">
-                        <div>
-                            <div style="color:var(--text-muted); font-size: 0.8rem; font-weight: 800;">LIVE USAGE</div>
-                            <h2 style="margin:0;">SYSTEM LOAD</h2>
-                        </div>
-                        <div class="running-percent" id="runningVal">85%</div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                        <div class="slot-card">
-                            <div style="color: #3b82f6; font-size: 0.7rem;">ONLINE</div>
-                            <div class="slot-val">4.4k</div>
-                        </div>
-                        <div class="slot-card">
-                            <div style="color: #22c55e; font-size: 0.7rem;">COOLDOWN</div>
-                            <div class="slot-val">12s</div>
-                        </div>
-                        <div class="slot-card">
-                            <div style="color: #eab308; font-size: 0.7rem;">VERSION</div>
-                            <div class="slot-val">v2.4</div>
-                        </div>
-                    </div>
+                <h2 style="margin-top: 40px; margin-bottom: 10px;">LOADER STRING</h2>
+                <div class="loader-box">
+                    loadstring(game:HttpGet("https://api.grapehub.net/v2"))()
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function updateTime() {
-            document.getElementById('server-time').innerText = new Date().toLocaleTimeString();
-            const percent = 80 + Math.floor(Math.random() * 15);
-            document.getElementById('runningVal').innerText = percent + "%";
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
+        // Kleines Skript für die Live-Zahlen
+        setInterval(() => {
+            const load = 85 + Math.floor(Math.random() * 10);
+            document.getElementById('load-pct').innerText = load + "%";
+            
+            const god = 5 + Math.floor(Math.random() * 4);
+            document.getElementById('god-live').innerText = god + "/10";
+        }, 2000);
     </script>
+
 </body>
 </html>
