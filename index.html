@@ -74,6 +74,7 @@
             gap: 20px;
         }
 
+        /* LED SCHRIFT EFFEKTE */
         .led-text {
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -82,6 +83,7 @@
             transition: 0.3s;
         }
 
+        /* Farbspezifische LED-Klassen */
         .led-basic { color: #3b82f6; text-shadow: 0 0 10px rgba(59, 130, 246, 0.7); }
         .led-medium { color: #22c55e; text-shadow: 0 0 10px rgba(34, 197, 94, 0.7); }
         .led-elite { color: #eab308; text-shadow: 0 0 10px rgba(234, 179, 8, 0.7); }
@@ -106,9 +108,9 @@
             background: #8b5cf6; color: white; border: none; padding: 18px;
             border-radius: 10px; font-size: 1.2rem; cursor: pointer;
             text-transform: uppercase; box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-            width: 100%; margin-top: 20px;
         }
         .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(139, 92, 246, 0.5); }
+
     </style>
 </head>
 <body>
@@ -121,9 +123,9 @@
             <button class="btn-add" onclick="window.location.href='topup.html'">Add Balance</button>
         </div>
         <nav>
-            <a href="#" style="text-decoration: none; color: white; display: block; padding: 10px;"><i class="fas fa-layer-group"></i> Dashboard</a>
-            <a href="#" style="text-decoration: none; color: #aaa; display: block; padding: 10px;"><i class="fas fa-shopping-basket"></i> Store</a>
-            <a href="#" style="text-decoration: none; color: #ef4444; display: block; padding: 10px; margin-top: 50px;"><i class="fas fa-power-off"></i> Logout</a>
+            <a href="#" style="text-decoration:none; color:white; display:block; padding:10px;"><i class="fas fa-layer-group"></i> Dashboard</a>
+            <a href="#" style="text-decoration:none; color:#aaa; display:block; padding:10px;"><i class="fas fa-shopping-basket"></i> Store</a>
+            <a href="#" style="text-decoration:none; color:#ef4444; display:block; padding:10px; margin-top:50px;"><i class="fas fa-power-off"></i> Logout</a>
         </nav>
     </div>
 
@@ -135,6 +137,7 @@
         <div class="dashboard-grid">
             <div class="panel-box">
                 <h2 style="margin-top: 0; font-size: 1.2rem; color: #a1a1aa; margin-bottom: 20px;">PLANS STATUS</h2>
+                
                 <div class="slot-item">
                     <div style="display:flex; justify-content:space-between;"><span style="color:#3b82f6;">BASIC</span><span>8/10</span></div>
                     <div class="progress-bg"><div class="progress-bar" style="width: 80%; background: #3b82f6;"></div></div>
@@ -157,47 +160,72 @@
                 <div class="panel-box">
                     <h2 style="margin-top: 0; font-size: 1.1rem; color: #a1a1aa; margin-bottom: 10px;">LOADER</h2>
                     <div class="loader-small">loadstring(game:HttpGet("https://api.grapehub.net/v2"))()</div>
+                    
                     <div id="led-title" class="led-text led-basic">BASIC PLAN</div>
+                    
                     <select id="plan-sel" onchange="updateUI()">
                         <option value="20" data-class="led-basic">BASIC TIER - $20/h</option>
                         <option value="40" data-class="led-medium">MEDIUM TIER - $40/h</option>
                         <option value="60" data-class="led-elite">ELITE TIER - $60/h</option>
                         <option value="100" data-class="led-pro">PRO TIER - $100/h</option>
                     </select>
+
                     <input type="number" id="hours-in" placeholder="Hours" min="1" style="margin-top: 15px;" oninput="updateUI()">
+
                     <div class="price-summary">
                         <span style="color: #a1a1aa;">TOTAL COST:</span>
                         <span id="total-val" style="font-size: 1.8rem; color: #fff;">$ 0.00</span>
                     </div>
-                    <button class="btn-buy" onclick="purchasePlan()">Confirm Order</button>
+
+                    <button class="btn-buy" style="margin-top: 20px; width: 100%;" onclick="purchasePlan()">Confirm Order</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Lädt die Balance beim Start
         function refresh() {
-            const b = localStorage.getItem('grape_balance') || "0";
-            document.getElementById('user-bal').innerText = "$ " + parseFloat(b).toFixed(2);
+            const bal = localStorage.getItem('grape_balance') || "0.00";
+            document.getElementById('user-bal').innerText = "$ " + parseFloat(bal).toFixed(2);
         }
+
         function updateUI() {
-            const s = document.getElementById('plan-sel');
-            const opt = s.options[s.selectedIndex];
+            const select = document.getElementById('plan-sel');
             const title = document.getElementById('led-title');
-            title.innerText = opt.text.split(' - ')[0];
-            title.className = "led-text " + opt.getAttribute('data-class');
-            const total = s.value * (document.getElementById('hours-in').value || 0);
+            const hours = document.getElementById('hours-in').value;
+            const rate = select.value;
+            
+            const selectedOption = select.options[select.selectedIndex];
+            const ledClass = selectedOption.getAttribute('data-class');
+            const planName = selectedOption.text.split(' - ')[0];
+
+            title.innerText = planName;
+            title.className = "led-text " + ledClass;
+
+            const total = rate * (hours || 0);
             document.getElementById('total-val').innerText = "$ " + total.toFixed(2);
         }
+
         function purchasePlan() {
-            const cost = parseFloat(document.getElementById('total-val').innerText.replace('$ ',''));
+            const cost = parseFloat(document.getElementById('total-val').innerText.replace('$ ', ''));
             let bal = parseFloat(localStorage.getItem('grape_balance') || "0");
-            if(cost > 0 && bal >= cost) {
-                localStorage.setItem('grape_balance', bal - cost);
+
+            if (cost <= 0) {
+                alert("Please enter hours!");
+                return;
+            }
+
+            if (bal >= cost) {
+                bal -= cost;
+                localStorage.setItem('grape_balance', bal);
                 refresh();
-                alert("Success! Script is active.");
-            } else { alert("Insufficient Balance!"); }
+                alert("PURCHASE SUCCESSFUL!");
+            } else {
+                alert('Insufficient funds!');
+            }
         }
+
         window.onload = refresh;
     </script>
 </body>
