@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grape Hub 🍇 | Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --bg-dark: #0f0f0f;
             --bg-panel: #18181b;
             --bg-card: #27272a;
-            --primary: #8b5cf6; /* Lila Trauben-Farbe */
+            --primary: #8b5cf6;
             --primary-glow: rgba(139, 92, 246, 0.3);
             --accent-green: #22c55e;
             --accent-red: #ef4444;
@@ -23,9 +29,10 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* HIER WURDE DIE SCHRIFT FETTER GEMACHT (500 statt normal) */
-            font-weight: 500;
+            /* SCHRIFTART GEÄNDERT & GLOBAL FETT */
+            font-family: 'Inter', sans-serif;
+            font-weight: 700; 
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -52,84 +59,81 @@
             gap: 10px;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #333;
+            border-bottom: 2px solid #333;
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: var(--primary);
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800; /* Extra Fett */
-            box-shadow: 0 0 10px var(--primary-glow);
+            font-weight: 900;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
         .balance-card {
             background: var(--bg-card);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 30px;
+            border: 1px solid #3f3f46;
         }
 
         .add-btn {
             background: var(--accent-green);
             border: none;
             color: white;
-            padding: 5px 15px;
-            border-radius: 5px;
+            padding: 6px 14px;
+            border-radius: 6px;
             cursor: pointer;
             float: right;
-            font-weight: 700;
+            font-weight: 800;
+            font-size: 0.8rem;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 12px 15px;
+            padding: 14px 15px;
             color: var(--text-muted);
             text-decoration: none;
-            border-radius: 8px;
-            transition: 0.3s;
-            margin-bottom: 5px;
-            font-weight: 600; /* Navigation etwas fetter */
+            border-radius: 10px;
+            transition: 0.2s;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .nav-link:hover, .nav-link.active {
-            background-color: var(--bg-card);
-            color: var(--text-main);
-            border-left: 3px solid var(--primary);
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
         }
 
         .logout {
             margin-top: auto;
-            border: 1px solid var(--accent-red);
+            border: 2px solid var(--accent-red);
             color: var(--accent-red);
             text-align: center;
             justify-content: center;
-            font-weight: 700;
-        }
-        .logout:hover {
-            background: var(--accent-red);
-            color: white;
         }
 
         /* --- Main Content --- */
         .main-content {
             flex: 1;
-            padding: 30px;
+            padding: 40px;
             overflow-y: auto;
         }
 
-        /* NEUER HEADER (Grape Hub) */
         .grape-header {
-            background: linear-gradient(90deg, var(--primary-glow) 0%, rgba(0,0,0,0) 100%);
-            border-left: 6px solid var(--primary);
-            padding: 20px 30px;
-            border-radius: 8px;
+            background: linear-gradient(90deg, #1e1b4b 0%, rgba(0,0,0,0) 100%);
+            border-left: 8px solid var(--primary);
+            padding: 25px 35px;
+            border-radius: 12px;
             margin-bottom: 40px;
             display: flex;
             align-items: center;
@@ -137,172 +141,120 @@
         }
 
         .grape-title {
-            font-size: 2.5rem;
-            font-weight: 900; /* Titel sehr fett */
-            color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-glow);
-            letter-spacing: 1px;
+            font-size: 3rem;
+            font-weight: 900; /* EXTREM FETT */
+            color: white;
+            letter-spacing: -1px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
-        .grape-subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 5px;
-            font-weight: 600;
-        }
 
-        /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
-            gap: 20px;
+            gap: 25px;
         }
 
-        @media (max-width: 1000px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
+        h2 { font-size: 1.5rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px; }
 
-        h2 { margin-bottom: 15px; font-weight: 800; }
-
-        /* Plan Selection */
         .plan-panel {
             background: var(--bg-panel);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
             border: 1px solid #333;
         }
 
         .current-plan {
-            background: linear-gradient(90deg, #ff5f5f, #ef4444);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: var(--accent-red);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         .plan-option {
             background: var(--bg-card);
-            border: 1px solid #333;
-            margin-bottom: 10px;
-            border-radius: 8px;
+            border: 2px solid #333;
+            margin-bottom: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.2s;
             cursor: pointer;
         }
-        
-        .plan-option:hover {
-            transform: translateX(5px);
-            border-color: var(--text-muted);
-        }
-        
+
         .plan-header {
-            padding: 10px 15px;
-            font-weight: 800; /* Plan Titel fett */
-            font-size: 0.95rem;
+            padding: 12px 18px;
+            font-weight: 900; 
+            font-size: 1rem;
+            text-transform: uppercase;
         }
-        
+
         .plan-god .plan-header { background: var(--accent-gold); color: black; }
         .plan-omega .plan-header { background: var(--primary); }
         .plan-ultimate .plan-header { background: #3b82f6; }
 
         .plan-details {
-            padding: 10px 15px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            padding: 15px 18px;
+            font-size: 0.95rem;
+            color: white;
             display: flex;
             justify-content: space-between;
-            font-weight: 600;
-        }
-
-        /* Script / Status Area */
-        .status-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
 
         .code-box {
             background: var(--bg-panel);
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
+            border-radius: 16px;
             border: 1px solid #333;
+            margin-bottom: 25px;
         }
 
         .script-input {
-            width: 100%;
-            background: #0a0a0a;
-            border: 1px solid #333;
-            color: var(--accent-green);
-            padding: 15px;
-            font-family: 'Consolas', monospace;
-            border-radius: 6px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            position: relative;
-            font-weight: 600; /* Code etwas fetter */
+            background: #000;
+            border: 2px solid #333;
+            color: #4ade80;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            border-radius: 10px;
+            font-weight: 800;
+            margin-top: 15px;
+            line-height: 1.5;
         }
 
         .stats-panel {
             background: var(--bg-panel);
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
+            border-radius: 16px;
             border: 1px solid #333;
         }
 
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
-        }
-
         .running-percent {
-            font-size: 2.5rem;
-            font-weight: 900; /* Prozentzahl sehr fett */
+            font-size: 3.5rem;
+            font-weight: 900;
             color: white;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
-        }
-
-        .slot-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 20px;
         }
 
         .slot-card {
             background: #111;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #333;
             text-align: center;
-            border: 1px solid #333;
         }
 
-        .slot-title { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700;}
-        .slot-val { font-size: 1.3rem; font-weight: 800; margin-top: 5px; color: white;}
-
-        .live-dot {
-            height: 10px;
-            width: 10px;
-            background-color: var(--accent-green);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 10px var(--accent-green);
-            animation: pulse 2s infinite;
+        .slot-val {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-top: 5px;
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        #server-time {
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--primary);
         }
-
     </style>
 </head>
 <body>
@@ -311,137 +263,100 @@
         <div class="user-profile">
             <div class="avatar">G</div>
             <div>
-                <div style="font-weight: 800;">Grapehub Admin</div>
-                <div style="font-size: 0.8rem; color: #888; font-weight: 600;">ID: 99283712</div>
+                <div style="font-weight: 900;">Grapehub Admin</div>
+                <div style="font-size: 0.8rem; color: #777;">ID: 99283712</div>
             </div>
         </div>
 
         <div class="balance-card">
-            <div style="font-size: 0.8rem; color: #aaa; font-weight: 600;">Balance</div>
-            <div style="font-size: 1.5rem; font-weight: 800; margin-top: 5px;">
+            <div style="font-size: 0.75rem; color: #aaa; text-transform: uppercase;">Total Balance</div>
+            <div style="font-size: 1.8rem; font-weight: 900; margin-top: 5px;">
                 R$ 0.00 
-                <button class="add-btn">+ Add</button>
+                <button class="add-btn">+ ADD</button>
             </div>
         </div>
 
-        <a href="#" class="nav-link active"><i class="fas fa-th-large"></i> Dashboard</a>
-        <a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
-        <a href="#" class="nav-link"><i class="fas fa-box"></i> Orders</a>
-        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Purchase Plan</a>
+        <a href="#" class="nav-link active"><i class="fas fa-th-large"></i> DASHBOARD</a>
+        <a href="#" class="nav-link"><i class="fas fa-cog"></i> SETTINGS</a>
+        <a href="#" class="nav-link"><i class="fas fa-box"></i> ORDERS</a>
+        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> STORE</a>
         
-        <a href="#" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="#" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
     </div>
 
     <div class="main-content">
         
         <div class="grape-header">
-            <div>
-                <div class="grape-title">
-                    Grape Hub 🍇
-                </div>
-                <div class="grape-subtitle">Premium Scripting Environment v2.4</div>
+            <div class="grape-title">
+                Grape Hub 🍇
             </div>
             <div style="text-align: right;">
-                <div style="font-size: 0.8rem; color: #888; font-weight:700;">SERVER TIME</div>
-                <div id="server-time" style="font-family: monospace; font-weight: 700;">00:00:00</div>
+                <div style="font-size: 0.75rem; color: #888; font-weight: 800;">SERVER TIME</div>
+                <div id="server-time">00:00:00</div>
             </div>
         </div>
 
         <div class="dashboard-grid">
             <div class="plan-panel">
-                <h2>Change Your Plan</h2>
+                <h2>SELECT PLAN</h2>
                 
                 <div class="current-plan">
                     <div>
-                        <div style="font-size:0.8rem; opacity:0.9; font-weight: 700;">CURRENT PLAN</div>
-                        <div style="font-weight:900; font-size: 1.1rem;">NO PLAN</div>
+                        <div style="font-size:0.75rem; font-weight: 900; opacity: 0.8;">CURRENT STATUS</div>
+                        <div style="font-weight:900; font-size: 1.3rem;">EXPIRED</div>
                     </div>
-                    <button style="background:rgba(255,255,255,0.2); border:none; color:white; padding:5px 12px; border-radius:4px; font-weight:700;">No plan</button>
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
                 </div>
 
-                <p style="margin-bottom:15px; color:var(--text-muted); font-size: 0.9rem; font-weight: 600;">Select the new plan</p>
-
                 <div class="plan-option plan-god">
-                    <div class="plan-header">GOD - R$ 60/H <span style="float:right; opacity:0.8">BEST VALUE</span></div>
+                    <div class="plan-header">GOD TIER</div>
                     <div class="plan-details">
-                        <span>Minimum: 2h</span>
-                        <span>Calculating...</span>
+                        <span>R$ 60 / HOUR</span>
+                        <span>8 SLOTS LEFT</span>
                     </div>
                 </div>
 
                 <div class="plan-option plan-omega">
-                    <div class="plan-header">OMEGA - R$ 40/H</div>
+                    <div class="plan-header">OMEGA TIER</div>
                     <div class="plan-details">
-                        <span>Minimum: 2h</span>
-                        <span>Calculating...</span>
-                    </div>
-                </div>
-
-                <div class="plan-option plan-ultimate">
-                    <div class="plan-header">ULTIMATE - R$ 20/H</div>
-                    <div class="plan-details">
-                        <span>Minimum: 2h</span>
-                        <span>Calculating...</span>
+                        <span>R$ 40 / HOUR</span>
+                        <span>12 SLOTS LEFT</span>
                     </div>
                 </div>
             </div>
 
             <div class="status-area">
-                
                 <div class="code-box">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                        <span style="color:var(--text-muted); font-size:0.9rem; font-weight: 600;">Injector Status: <span style="color:var(--accent-red); font-weight: 700;">Disconnected</span></span>
-                        <button style="background:#333; border:1px solid #555; color:white; padding:4px 12px; border-radius:4px; font-size:0.8rem; cursor:pointer; font-weight: 600;">
-                            <i class="fas fa-sync"></i> Reset HWID
-                        </button>
+                    <div style="display:flex; justify-content:space-between; align-items: center;">
+                        <h2 style="margin:0;">LOADER</h2>
+                        <span style="color:var(--accent-red); font-weight: 900;">● OFFLINE</span>
                     </div>
                     <div class="script-input">
-                        <span style="color:#666;">-- Grape Hub Auto-Loader</span><br>
-                        getgenv().KEY = <span style="color:#eab308;">"GRAPE-USER-XXXX"</span><br>
-                        <span style="color:#8b5cf6;">loadstring</span>(game:HttpGet(<span style="color:#22c55e;">"https://api.grapehub.net/v2/load"</span>))()
-                        <i class="fas fa-copy" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: #555;"></i>
+                        loadstring(game:HttpGet("https://api.grapehub.net/v2"))()
                     </div>
                 </div>
 
                 <div class="stats-panel">
-                    <div class="stats-header">
+                    <div style="display:flex; justify-content:space-between; align-items: flex-end; margin-bottom: 20px;">
                         <div>
-                            <h3 style="color:var(--text-muted); font-size:0.9rem; font-weight: 700;">System Load</h3>
-                            <h2>Live Slots <span class="live-dot"></span></h2>
+                            <div style="color:var(--text-muted); font-size: 0.8rem; font-weight: 800;">LIVE USAGE</div>
+                            <h2 style="margin:0;">SYSTEM LOAD</h2>
                         </div>
-                        <div style="text-align:right;">
-                            <div style="font-size:0.8rem; color:var(--text-muted); font-weight: 600;">Total Capacity</div>
-                            <div class="running-percent" id="runningVal">142%</div>
-                        </div>
+                        <div class="running-percent" id="runningVal">85%</div>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
-                        <div style="background:#111; padding:12px; margin-bottom:10px; border-radius:6px; border:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="color:var(--accent-gold); font-weight:800;">GOD TIER</span>
-                            <span id="god-slots" style="color:white; font-family:monospace; font-weight: 600;">Loading...</span>
-                        </div>
-                        <div style="background:#111; padding:12px; margin-bottom:10px; border-radius:6px; border:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="color:var(--primary); font-weight:800;">OMEGA TIER</span>
-                            <span id="omega-slots" style="color:white; font-family:monospace; font-weight: 600;">Loading...</span>
-                        </div>
-                        <div style="background:#111; padding:12px; margin-bottom:10px; border-radius:6px; border:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="color:#3b82f6; font-weight:800;">ULTIMATE</span>
-                            <span id="ultimate-slots" style="color:white; font-family:monospace; font-weight: 600;">Loading...</span>
-                        </div>
-                    </div>
-
-                    <div class="slot-grid">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
                         <div class="slot-card">
-                            <div class="slot-title"><span style="color:#3b82f6;">●</span> Executions</div>
-                            <div class="slot-val">842</div>
-                        </div>
-                        <div class="slot-card">
-                            <div class="slot-title"><span style="color:#22c55e;">●</span> Online</div>
+                            <div style="color: #3b82f6; font-size: 0.7rem;">ONLINE</div>
                             <div class="slot-val">4.4k</div>
                         </div>
                         <div class="slot-card">
-                            <div class="slot-title"><span style="color:#eab308;">●</span> Banned</div>
-                            <div class="slot-val">0</div>
+                            <div style="color: #22c55e; font-size: 0.7rem;">COOLDOWN</div>
+                            <div class="slot-val">12s</div>
+                        </div>
+                        <div class="slot-card">
+                            <div style="color: #eab308; font-size: 0.7rem;">VERSION</div>
+                            <div class="slot-val">v2.4</div>
                         </div>
                     </div>
                 </div>
@@ -450,37 +365,12 @@
     </div>
 
     <script>
-        // --- LIVE SIMULATION SCRIPT ---
-        
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function updateSlots() {
-            const godMax = 10;
-            const omegaMax = 20;
-            const ultimateMax = 25;
-
-            const godCurr = getRandomInt(4, 9);
-            const omegaCurr = getRandomInt(12, 19);
-            const ultimateCurr = getRandomInt(15, 24);
-
-            document.getElementById('god-slots').innerHTML = `${godCurr} / ${godMax} <span style='font-size:0.8rem; color:#666; margin-left:5px; font-weight:700;'>ACTIVE</span>`;
-            document.getElementById('omega-slots').innerHTML = `${omegaCurr} / ${omegaMax} <span style='font-size:0.8rem; color:#666; margin-left:5px; font-weight:700;'>ACTIVE</span>`;
-            document.getElementById('ultimate-slots').innerHTML = `${ultimateCurr} / ${ultimateMax} <span style='font-size:0.8rem; color:#666; margin-left:5px; font-weight:700;'>ACTIVE</span>`;
-            
-            const percent = 85 + getRandomInt(-5, 10);
+        function updateTime() {
+            document.getElementById('server-time').innerText = new Date().toLocaleTimeString();
+            const percent = 80 + Math.floor(Math.random() * 15);
             document.getElementById('runningVal').innerText = percent + "%";
         }
-        
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('server-time').innerText = now.toLocaleTimeString();
-        }
-
-        setInterval(updateSlots, 2000);
         setInterval(updateTime, 1000);
-        updateSlots();
         updateTime();
     </script>
 </body>
