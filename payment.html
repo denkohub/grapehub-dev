@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment | Grape Hub 🍇</title>
+    <title>Grape Hub 🍇 | Payment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -11,72 +11,175 @@
             color: #fff;
             font-family: 'Inter', 'Segoe UI', sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
         }
-        .payment-card {
+
+        .payment-box {
             background: #141417;
             padding: 40px;
             border-radius: 15px;
-            border: 1px solid #27272a;
-            width: 350px;
+            width: 380px;
             text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
         }
-        h2 { margin-bottom: 20px; }
-        select {
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background: #18181b;
-            border: 1px solid #3f3f46;
-            color: white;
-            font-size: 1rem;
+
+        h1 { margin-bottom: 20px; color: #8b5cf6; }
+
+        .amount {
+            font-size: 2rem;
+            margin-bottom: 30px;
         }
+
         .btn-pay {
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            padding: 15px;
             width: 100%;
+            padding: 15px;
+            margin: 10px 0;
             border-radius: 10px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 800;
             cursor: pointer;
-            font-size: 1.2rem;
-            text-transform: uppercase;
+            color: white;
+            transition: 0.2s;
         }
-        .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(139, 92, 246, 0.5); }
-        .price-display {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+
+        .btn-pay.paypal { background-color: #0070ba; }
+        .btn-pay.ltc { background-color: #345c9c; }
+        .btn-pay.btc { background-color: #f7931a; }
+        .btn-pay.gift { background-color: #22c55e; }
+
+        .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+
+        .success-msg {
+            margin-top: 20px;
+            background-color: #22c55e;
             color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 700;
+        }
+
+        .btn-back {
+            margin-top: 15px;
+            background-color: #8b5cf6;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 800;
+        }
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(139,92,246,0.5);
+        }
+
+        .giftcard-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .giftcard-section input, .giftcard-section select {
+            width: 100%;
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #3f3f46;
+            background: #18181b;
+            color: white;
+        }
+
+        .giftcard-section button {
+            margin-top: 10px;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="payment-card">
-        <h2>Choose Payment Method</h2>
-        <div class="price-display">Total: $<span id="payment-amount">0.00</span></div>
-        <select id="payment-method">
-            <option value="paypal">PayPal</option>
-            <option value="bitcoin">Bitcoin</option>
-            <option value="litecoin">Litecoin</option>
-        </select>
-        <button class="btn-pay" onclick="pay()">Pay Now</button>
+
+    <div class="payment-box">
+        <h1>Complete Payment</h1>
+        <div class="amount" id="amount-display">$0.00</div>
+
+        <!-- Standard Payment Buttons -->
+        <button class="btn-pay paypal" onclick="pay('PayPal')">Pay with PayPal</button>
+        <button class="btn-pay ltc" onclick="pay('Litecoin')">Pay with Litecoin</button>
+        <button class="btn-pay btc" onclick="pay('Bitcoin')">Pay with Bitcoin</button>
+
+        <!-- Giftcard Section -->
+        <div class="giftcard-section">
+            <label for="gift-method">Giftcard Type:</label>
+            <select id="gift-method">
+                <option value="PayPal">PayPal</option>
+                <option value="GiftMeCrypto">GiftMeCrypto</option>
+            </select>
+            <label for="gift-code">Enter Giftcard Code:</label>
+            <input type="text" id="gift-code" placeholder="XXXX-XXXX-XXXX">
+            <button class="btn-pay gift" onclick="redeemGift()">Redeem Giftcard</button>
+        </div>
+
+        <div class="success-msg" id="success-msg">Payment Successful! 🎉</div>
+        <button class="btn-back" id="back-btn" style="display:none;" onclick="goBack()">Back to Dashboard</button>
     </div>
 
     <script>
-        // Holen des Preises aus der URL
-        const params = new URLSearchParams(window.location.search);
-        const total = params.get('total') || '0.00';
-        document.getElementById('payment-amount').innerText = parseFloat(total).toFixed(2);
+        // Betrag aus URL auslesen
+        const urlParams = new URLSearchParams(window.location.search);
+        const total = urlParams.get('total') || "0.00";
+        document.getElementById('amount-display').innerText = "$" + total;
 
-        function pay() {
-            const method = document.getElementById('payment-method').value;
-            alert('Payment of $' + total + ' via ' + method + ' successful!');
-            window.location.href = 'index.html'; // zurück zum Dashboard
+        function pay(method) {
+            showSuccess(`Payment of $${total} with ${method} Successful! 🎉`);
+            updateBalance(parseFloat(total));
+        }
+
+        function redeemGift() {
+            const code = document.getElementById('gift-code').value.trim();
+            const type = document.getElementById('gift-method').value;
+            if(!code) {
+                alert("Please enter a valid giftcard code!");
+                return;
+            }
+
+            // Beispiel: einfache Code-Validierung
+            // Hier könntest du eine Liste gültiger Codes prüfen oder API nutzen
+            const validCodes = ["GRAPE100", "GRAPE500", "GRAPE1000"];
+            if(!validCodes.includes(code)) {
+                alert("Invalid giftcard code!");
+                return;
+            }
+
+            // Betrag bestimmen je nach Code
+            let giftAmount = 0;
+            if(code === "GRAPE100") giftAmount = 100;
+            if(code === "GRAPE500") giftAmount = 500;
+            if(code === "GRAPE1000") giftAmount = 1000;
+
+            showSuccess(`Giftcard Redeemed! $${giftAmount} added via ${type}`);
+            updateBalance(giftAmount);
+        }
+
+        function showSuccess(msg) {
+            const successMsg = document.getElementById('success-msg');
+            successMsg.innerText = msg;
+            successMsg.style.display = 'block';
+            document.getElementById('back-btn').style.display = 'inline-block';
+        }
+
+        function updateBalance(amount) {
+            let currentBalance = parseFloat(localStorage.getItem('balance') || "0");
+            currentBalance += amount;
+            localStorage.setItem('balance', currentBalance.toFixed(2));
+        }
+
+        function goBack() {
+            window.location.href = "index.html";
         }
     </script>
+
 </body>
 </html>
