@@ -6,109 +6,112 @@
 <title>Grape Hub 🍇 | LED Edition</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    body {
-        background-color: #0c0c0e;
-        color: #ffffff;
-        font-family: 'Inter', 'Segoe UI', sans-serif;
-        margin: 0;
-        display: flex;
-        height: 100vh;
-        overflow: hidden;
-    }
+body {
+    background-color: #0c0c0e;
+    color: #ffffff;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+* { box-sizing: border-box; font-weight: 800 !important; }
 
-    * { box-sizing: border-box; font-weight: 800 !important; }
+/* SIDEBAR */
+.sidebar {
+    width: 320px;
+    background-color: #111114;
+    border-right: 1px solid #27272a;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.balance-card {
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+.balance-val { font-size: 2.2rem; margin: 10px 0; color: #fff; }
+.btn-add {
+    background: #22c55e; color: white; border: none; padding: 12px;
+    width: 100%; border-radius: 8px; cursor: pointer; text-transform: uppercase;
+}
+input.balance-input {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #3f3f46;
+    background: #18181b;
+    color: white;
+    font-size: 1rem;
+}
+.btn-pay {
+    display: none;
+    margin-top: 10px;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background: #8b5cf6;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+}
 
-    /* SIDEBAR */
-    .sidebar {
-        width: 320px;
-        background-color: #111114;
-        border-right: 1px solid #27272a;
-        padding: 30px 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+/* MAIN CONTENT */
+.main { flex: 1; padding: 40px; overflow-y: auto; }
+.header-banner {
+    background: linear-gradient(90deg, #1e1b4b 0%, #0c0c0e 100%);
+    padding: 30px; border-radius: 15px; border-left: 8px solid #8b5cf6;
+    margin-bottom: 30px;
+}
+.dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.panel-box {
+    background: #141417;
+    border: 1px solid #27272a;
+    border-radius: 15px;
+    padding: 25px;
+}
 
-    .balance-card {
-        background: #18181b;
-        border: 1px solid #27272a;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-    }
+/* SLOT TABLE */
+.slot-item { background: #0f0f12; padding: 15px; border-radius: 10px; border: 1px solid #27272a; margin-bottom: 12px; }
+.progress-bg { width: 100%; height: 6px; background: #000; border-radius: 10px; margin-top: 10px; }
+.progress-bar { height: 100%; border-radius: 10px; }
 
-    .balance-val { font-size: 2.2rem; margin: 10px 0; color: #fff; }
+/* LED */
+.led-text {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+.led-basic { color: #3b82f6; text-shadow: 0 0 10px rgba(59, 130, 246, 0.7); }
+.led-medium { color: #22c55e; text-shadow: 0 0 10px rgba(34, 197, 94, 0.7); }
+.led-elite { color: #eab308; text-shadow: 0 0 10px rgba(234, 179, 8, 0.7); }
+.led-pro { color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
 
-    .btn-add {
-        background: #22c55e; color: white; border: none; padding: 12px;
-        width: 100%; border-radius: 8px; cursor: pointer; text-transform: uppercase;
-    }
+.loader-small { background: #000; padding: 15px; border-radius: 10px; color: #4ade80; font-family: monospace; border: 1px solid #333; margin-bottom: 20px; font-size: 0.8rem; }
 
-    /* MAIN CONTENT */
-    .main { flex: 1; padding: 40px; overflow-y: auto; }
+select, input { background: #18181b; border: 1px solid #3f3f46; color: white; padding: 15px; border-radius: 10px; width: 100%; font-size: 1rem; outline: none; transition: 0.2s; }
+select:focus, input:focus { border-color: #8b5cf6; background: #1e1e22; }
 
-    .header-banner {
-        background: linear-gradient(90deg, #1e1b4b 0%, #0c0c0e 100%);
-        padding: 30px; border-radius: 15px; border-left: 8px solid #8b5cf6;
-        margin-bottom: 30px;
-    }
-
-    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-
-    .panel-box {
-        background: #141417;
-        border: 1px solid #27272a;
-        border-radius: 15px;
-        padding: 25px;
-    }
-
-    /* SLOT TABLE */
-    .slot-item { background: #0f0f12; padding: 15px; border-radius: 10px; border: 1px solid #27272a; margin-bottom: 12px; }
-    .progress-bg { width: 100%; height: 6px; background: #000; border-radius: 10px; margin-top: 10px; }
-    .progress-bar { height: 100%; border-radius: 10px; }
-
-    /* --- PURCHASE CLEAN LED DESIGN --- */
-    .purchase-card {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    /* LED SCHRIFT EFFEKTE */
-    .led-text {
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-        transition: 0.3s;
-    }
-
-    .led-basic { color: #3b82f6; text-shadow: 0 0 10px rgba(59, 130, 246, 0.7); }
-    .led-medium { color: #22c55e; text-shadow: 0 0 10px rgba(34, 197, 94, 0.7); }
-    .led-elite { color: #eab308; text-shadow: 0 0 10px rgba(234, 179, 8, 0.7); }
-    .led-pro { color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
-
-    .loader-small { background: #000; padding: 15px; border-radius: 10px; color: #4ade80; font-family: monospace; border: 1px solid #333; margin-bottom: 20px; font-size: 0.8rem; }
-
-    select, input {
-        background: #18181b; border: 1px solid #3f3f46; color: white;
-        padding: 15px; border-radius: 10px; width: 100%; font-size: 1rem;
-        outline: none; transition: 0.2s;
-    }
-    select:focus, input:focus { border-color: #8b5cf6; background: #1e1e22; }
-
-    .price-summary {
-        background: #0f0f12; padding: 20px; border-radius: 10px;
-        display: flex; justify-content: space-between; align-items: center;
-        border: 1px solid #27272a; margin-top: 10px;
-    }
-
-    .btn-buy {
-        background: #8b5cf6; color: white; border: none; padding: 18px;
-        border-radius: 10px; font-size: 1.2rem; cursor: pointer;
-        text-transform: uppercase; box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-    }
-    .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(139, 92, 246, 0.5); }
+.price-summary {
+    background: #0f0f12; padding: 20px; border-radius: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid #27272a; margin-top: 10px;
+}
+.btn-buy {
+    background: #8b5cf6; color: white; border: none; padding: 18px;
+    border-radius: 10px; font-size: 1.2rem; cursor: pointer;
+    text-transform: uppercase; box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+.btn-buy:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(139, 92, 246, 0.5); }
 </style>
 </head>
 <body>
@@ -117,8 +120,10 @@
     <h2 style="color: #8b5cf6; letter-spacing: 2px; text-align: center;">GRAPE HUB</h2>
     <div class="balance-card">
         <div style="font-size: 0.7rem; color: #a1a1aa; text-transform: uppercase;">Your Balance</div>
-        <div class="balance-val" id="balance-val">$0.00</div>
-        <button class="btn-add" onclick="addBalance()">Add Balance</button>
+        <div class="balance-val" id="balance-val">$ 0.00</div>
+        <button class="btn-add" id="btn-add">Add Balance</button>
+        <input type="number" placeholder="Enter amount" id="balance-input" class="balance-input" min="1">
+        <button class="btn-pay" id="btn-pay">Pay</button>
     </div>
     <nav>
         <a href="#" class="nav-link active"><i class="fas fa-layer-group"></i> Dashboard</a>
@@ -135,7 +140,6 @@
     <div class="dashboard-grid">
         <div class="panel-box">
             <h2 style="margin-top: 0; font-size: 1.2rem; color: #a1a1aa; margin-bottom: 20px;">PLANS STATUS</h2>
-            
             <div class="slot-item">
                 <div style="display:flex; justify-content:space-between;"><span style="color:#3b82f6;">10 - 100M</span><span>8/10</span></div>
                 <div class="progress-bg"><div class="progress-bar" style="width: 80%; background: #3b82f6;"></div></div>
@@ -145,7 +149,7 @@
                 <div class="progress-bg"><div class="progress-bar" style="width: 42%; background: #22c55e;"></div></div>
             </div>
             <div class="slot-item">
-                <div style="display:flex; justify-content:space-between;"><span style="color:#eab308;">500M - 1B</span><span>5/14</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#eab308;">500 - 1B</span><span>5/14</span></div>
                 <div class="progress-bg"><div class="progress-bar" style="width: 35%; background: #eab308;"></div></div>
             </div>
             <div class="slot-item">
@@ -157,20 +161,41 @@
 </div>
 
 <script>
-    // Balance anzeigen
-    function updateBalanceDisplay() {
-        const balance = parseFloat(localStorage.getItem('balance') || "0");
-        document.getElementById('balance-val').innerText = "$" + balance.toFixed(2);
-    }
-    updateBalanceDisplay();
+const btnAdd = document.getElementById('btn-add');
+const btnPay = document.getElementById('btn-pay');
+const input = document.getElementById('balance-input');
+const balanceVal = document.getElementById('balance-val');
 
-    function addBalance() {
-        const amount = prompt("Enter amount to add:");
-        if(!amount || isNaN(amount) || parseFloat(amount) <= 0) return;
-        // Weiterleiten zu payment.html mit Betrag
-        window.location.href = `payment.html?total=${parseFloat(amount).toFixed(2)}`;
+let pendingAmount = 0;
+
+// Zeige Eingabefeld beim Add Balance
+btnAdd.addEventListener('click', () => {
+    input.style.display = 'block';
+    btnPay.style.display = 'block';
+});
+
+// Weiterleitung zur Payment-Seite mit dem Betrag
+btnPay.addEventListener('click', () => {
+    const amount = parseFloat(input.value);
+    if(isNaN(amount) || amount <= 0){
+        alert('Please enter a valid amount');
+        return;
     }
+    pendingAmount = amount;
+    // Speichern des Betrags temporär in sessionStorage
+    sessionStorage.setItem('pendingAmount', pendingAmount);
+    window.location.href = 'payment.html';
+});
+
+// Balance beim Rückkehren von payment.html aktualisieren
+window.addEventListener('DOMContentLoaded', () => {
+    const paidAmount = parseFloat(sessionStorage.getItem('paidAmount'));
+    if(!isNaN(paidAmount) && paidAmount > 0){
+        const currentBalance = parseFloat(balanceVal.innerText.replace('$ ',''));
+        balanceVal.innerText = '$ ' + (currentBalance + paidAmount).toFixed(2);
+        sessionStorage.removeItem('paidAmount');
+    }
+});
 </script>
-
 </body>
 </html>
